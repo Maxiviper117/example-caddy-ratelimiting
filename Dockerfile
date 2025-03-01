@@ -1,6 +1,8 @@
 # Use the official Caddy builder image to add the rate limit module
 FROM caddy:builder AS builder
 
+# Using the extension caddy-ratelimit from github.com/mholt
+# Not an official module, but a community one
 RUN xcaddy build \
     --with github.com/mholt/caddy-ratelimit
 
