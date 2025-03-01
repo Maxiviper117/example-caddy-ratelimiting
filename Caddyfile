@@ -1,0 +1,27 @@
+:80  # Listen on port 80
+
+rate_limit {
+    distributed  # Enable distributed rate limiting (useful when running multiple Caddy instances)
+    
+    # Static rate limiting zone - applies to all GET requests collectively
+    zone static_example {
+        match {
+            method GET  # Only apply this zone to GET requests
+        }
+        key    static  # Uses a static key, meaning this limit applies globally to all clients
+        events 100     # Allow 100 requests
+        window 1m      # Within a 1-minute window (100 requests per minute)
+    }
+    
+    # Dynamic rate limiting zone - applies to each client IP separately
+    zone dynamic_example {
+        key    {remote_host}  # Uses client IP as the key, so rate limit applies per IP address
+        events 2              # Allow 2 requests
+        window 5s             # Within a 5-second window (effectively 0.4 requests per second)
+    }
+    
+    log_key  # Log the key used for rate limiting decisions (helpful for debugging)
+}
+
+# Simple response handler to demonstrate the rate limiting
+respond "I'm behind the rate limiter!"

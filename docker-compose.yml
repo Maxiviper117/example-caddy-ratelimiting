@@ -1,0 +1,17 @@
+services:
+  caddy:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: caddy_ratelimited
+    ports:
+      - "8080:80"
+      - "8443:443"
+    # Remove the container when stopped using the 'docker-compose down' command.
+
+
+# To run with build
+# docker-compose up --build -d
+
+# Top stop 
+# docker-compose down
